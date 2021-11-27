@@ -39,6 +39,9 @@ const restauraunt = [
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
+function setId(id) {
+	sessionStorage.setItem('id', id);
+}
 
 export default function RestaurauntPage() {
 	return (
@@ -81,7 +84,11 @@ export default function RestaurauntPage() {
 
 							<div className="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6">
 								{collections.map((collection) => (
-									<div key={collection.name} className="group relative">
+									<div
+										onClick={() => setId(1)}
+										key={collection.name}
+										className="group relative"
+									>
 										<div className="relative w-full h-48 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-32 lg:aspect-w-1 lg:aspect-h-1">
 											<img
 												src={collection.imageSrc}
