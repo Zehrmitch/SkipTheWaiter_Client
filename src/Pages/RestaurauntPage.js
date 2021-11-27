@@ -48,7 +48,7 @@ export default function RestaurauntPage() {
 				<div className="flex flex-col border-b border-gray-200 lg:border-0">
 					<div className="relative">
 						<div className="relative bg-gray-100 lg:bg-transparent">
-							<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:grid lg:grid-cols-2">
+							<div className="max-w-7xl mx-auto px-4 sm:px-6">
 								<div className="max-w-2xl mx-auto py-8 lg:py-64 lg:max-w-none">
 									<div className="p-10 rounded-lg bg-white text-center">
 										{restauraunt.map((restauraunt) => (
