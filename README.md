@@ -1,1 +1,1 @@
-# SkipTheWaiter_Client
+Skip the waiter client
