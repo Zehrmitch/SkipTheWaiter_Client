@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const collections = [
 	{
 		name: 'Wood Fire Pizzas',
@@ -36,9 +34,6 @@ const restauraunt = [
 	},
 ];
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(' ');
-}
 function setId(id) {
 	sessionStorage.setItem('id', id);
 }
