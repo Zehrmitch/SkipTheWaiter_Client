@@ -6,11 +6,12 @@ import RestaurauntPage from './Pages/RestaurauntPage';
 import NavBar from './Components/NavBar';
 
 function App() {
+
 	return (
 		<NavBar>
 			<Routes>
-				<Route exact path="/" element={<RestaurauntPage />}></Route>
-				<Route exact path="/menu" element={<MenuPage />}></Route>
+				<Route path="/" element={<RestaurauntPage />}></Route>
+				<Route path="/menu" element={<MenuPage />}></Route>
 			</Routes>
 		</NavBar>
 	);
