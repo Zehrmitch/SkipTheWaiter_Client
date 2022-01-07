@@ -2,7 +2,11 @@ import {
 	OfficeBuildingIcon,
 	TemplateIcon,
 	UserAddIcon,
+	UserIcon
 } from '@heroicons/react/solid';
+
+import AuthNav from './auth-nav';
+
 
 const tabs = [
 	{ name: 'Restauraunt', href: '/', icon: OfficeBuildingIcon, id: 0 },
@@ -12,6 +16,12 @@ const tabs = [
 		href: '/waiter',
 		icon: UserAddIcon,
 		id: 2,
+	},
+	{
+		name: 'Profile',
+		href: '/profile',
+		icon: UserIcon,
+		id: 3,
 	},
 ];
 
@@ -57,7 +67,9 @@ export default function NavBar({ children }) {
 								<span>{tab.name}</span>
 							</a>
 						))}
+						<AuthNav />
 					</nav>
+					
 				</div>
 			</div>
 			{children}

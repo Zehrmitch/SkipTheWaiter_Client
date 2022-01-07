@@ -81,8 +81,8 @@ export default function RestaurauntPage() {
 								{collections.map((collection) => (
 									<div
 										onClick={() => setId(1)}
-										key={collection.name}
 										className="group relative"
+										key={collection.name}
 									>
 										<div className="relative w-full h-48 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-32 lg:aspect-w-1 lg:aspect-h-1">
 											<img
