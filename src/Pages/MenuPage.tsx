@@ -10,17 +10,17 @@ import Item from '../Item/Item';
 import Cart from '../Cart/Cart';
 
 export type CartItemType = {
-	id: number;
-	category: string;
-	description: string;
-	image: string;
-	price: number;
-	title: string;
+	_id: number;
+	productName: string;
+	productDescription:string;
+	productImageUrl: string;
+	productPrice: number;
 	amount: number;
+	storeId: string;
   };
   
   const getProducts = async (): Promise<CartItemType[]> =>
-	await (await fetch('https://fakestoreapi.com/products')).json();
+	await (await fetch('http://localhost:8080/api/product/all')).json();
   
   const MenuPage = () => {
 	const [cartOpen, setCartOpen] = useState(false);
@@ -29,18 +29,18 @@ export type CartItemType = {
 	  'products',
 	  getProducts
 	);
-	//console.log(data);
+	console.log(data);
   
 	const getTotalItems = (items: CartItemType[]) =>
 	  items.reduce((ack: number, item) => ack + item.amount, 0);
   
 	const handleAddToCart = (clickedItem: CartItemType) => {
 	  setCartItems(prev => {
-		const isItemInCart = prev.find(item => item.id === clickedItem.id);
+		const isItemInCart = prev.find(item => item._id === clickedItem._id);
   
 		if (isItemInCart) {
 		  return prev.map(item =>
-			item.id === clickedItem.id
+			item._id === clickedItem._id
 			  ? { ...item, amount: item.amount + 1 }
 			  : item
 		  );
@@ -52,7 +52,7 @@ export type CartItemType = {
 	const handleRemoveFromCart = (id: number) => {
 	  setCartItems(prev =>
 		prev.reduce((ack, item) => {
-		  if (item.id === id) {
+		  if (item._id === id) {
 			if (item.amount === 1) return ack;
 			return [...ack, { ...item, amount: item.amount - 1 }];
 		  } else {
@@ -81,7 +81,7 @@ export type CartItemType = {
 		</StyledButton>
 		<Grid container spacing={3}>
 		  {data?.map(item => (
-			<Grid item key={item.id} xs={12} sm={4}>
+			<Grid item key={item._id} xs={12} sm={4}>
 			  <Item item={item} handleAddToCart={handleAddToCart} />
 			</Grid>
 		  ))}
