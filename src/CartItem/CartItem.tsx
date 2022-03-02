@@ -19,7 +19,7 @@ type Props = {
         <h3>{item.productName}</h3>
         {show!=true?
         <div className="information">
-        <StarRating productId={item._id} ></StarRating>
+        <StarRating click={true} productId={item._id} rv={null} ></StarRating>
         </div>
         :null}
     

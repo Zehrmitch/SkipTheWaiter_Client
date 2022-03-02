@@ -8,6 +8,7 @@ import Badge from '@material-ui/core/Badge';
 import {Wrapper,StyledButton} from './MenuPage.styles';
 import Item from '../Item/Item';
 import Cart from '../Cart/Cart';
+import StarRating from '../Components/StarRating';
 
 export type CartItemType = {
 	_id: number;
@@ -18,7 +19,7 @@ export type CartItemType = {
 	amount: number;
 	storeId: string;
   };
-  
+var productRatings: number[]=[];
   const getProducts = async (): Promise<CartItemType[]> =>
 	await (await fetch('http://localhost:8080/api/product/all')).json();
   
@@ -29,8 +30,35 @@ export type CartItemType = {
 	  'products',
 	  getProducts
 	);
+
+
+		
+	{data?.map(async(item) => {
+		
+		await fetch('http://localhost:8080/api/review/'+item._id).then((res)=>{
+			if(res.status==200){
+				
+			res.json().then((data)=>{
+				var tempSum:number=0;
+				var tempAvg:number=0;
+				for(var i:number=0;i<data.length;i++){
+					tempSum+=data[i].reviewStars;
+				}
+				tempAvg=Math.floor(tempSum/data.length);
+				if(isNaN(tempAvg)){
+					tempAvg=0;
+				}
+				//console.log(tempAvg);
+				productRatings.push(tempAvg);
+			})
+		}
+		else{
+			return;
+		}
 	
-  
+		})
+	  })}
+  console.log(productRatings);
 	const getTotalItems = (items: CartItemType[]) =>
 	  items.reduce((ack: number, item) => ack + item.amount, 0);
   
@@ -84,9 +112,10 @@ export type CartItemType = {
 		  </Badge>
 		</StyledButton>
 		<Grid container spacing={3}>
-		  {data?.map(item => (
+		  {data?.map((item,i) => (
 			<Grid item key={item._id} xs={12} sm={4}>
 			  <Item item={item} handleAddToCart={handleAddToCart} />
+			  <StarRating click={false} rv={productRatings[i]}></StarRating>
 			</Grid>
 		  ))}
 		</Grid>

@@ -27,11 +27,13 @@ async function submitRating(rate,product){
 }
 
 
-var flag=false;
+var enableClick=false;
 
 const StarRating=(props)=>{
+    var flag=false;
     var product=props.productId;
-    
+    var rate=props.rv;
+    enableClick=props.click;
     const [rating,setRating]=useState(null);
     const [hover,setHover]=useState(null);
 
@@ -44,6 +46,7 @@ const StarRating=(props)=>{
                 return (
                 <td>
                 <label>
+                {enableClick==true?
                 <input 
                 disabled={flag}
                 type="radio" 
@@ -58,16 +61,27 @@ const StarRating=(props)=>{
                     flag=true;
                 
                 }}
+                
            
-                />
-               
+                />:null}
+           
+                {enableClick==true?
                 <FaStar 
                 className="star"
                 color={ratingValue<=(hover||rating)?"#ffc107":"#e4e5e9"} 
                 size={20}
                 onMouseEnter={()=>setHover(ratingValue)}
                 onMouseLeave={()=>setHover(null)}
+                />:
+                <FaStar 
+                className="star"
+                color={ratingValue<=(rate||rating)?"#ffc107":"#e4e5e9"} 
+                size={20}
+                
                 />
+                
+                
+                }
                 </label>
                 </td>)
             })}
@@ -84,3 +98,4 @@ const StarRating=(props)=>{
 
 
 export default StarRating;
+
