@@ -29,7 +29,7 @@ export type CartItemType = {
 	  'products',
 	  getProducts
 	);
-	console.log(data);
+	
   
 	const getTotalItems = (items: CartItemType[]) =>
 	  items.reduce((ack: number, item) => ack + item.amount, 0);
@@ -48,6 +48,8 @@ export type CartItemType = {
 		return [...prev, { ...clickedItem, amount: 1 }];
 	  });
 	};
+
+	
   
 	const handleRemoveFromCart = (id: number) => {
 	  setCartItems(prev =>
@@ -61,6 +63,7 @@ export type CartItemType = {
 		}, [] as CartItemType[])
 	  );
 	};
+
   
 	if (isLoading) return <LinearProgress />;
 	if (error) return <div>Something went wrong ...</div>;
@@ -73,6 +76,7 @@ export type CartItemType = {
 			addToCart={handleAddToCart}
 			removeFromCart={handleRemoveFromCart}
 		  />
+		
 		</Drawer>
 		<StyledButton onClick={() => setCartOpen(true)}>
 		  <Badge badgeContent={getTotalItems(cartItems)} color='error'>

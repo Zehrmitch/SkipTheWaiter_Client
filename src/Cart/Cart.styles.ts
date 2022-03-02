@@ -5,3 +5,7 @@ export const Wrapper=styled.aside`
     width: 500px;
     padding:20px;
 `;
+
+export const Hidden=styled.aside`
+visibility:collapse;
+`;
