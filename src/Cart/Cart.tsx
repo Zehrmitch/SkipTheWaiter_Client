@@ -40,7 +40,7 @@ async function sendOrder(order: CartItemType[]){
 		})
 			.then((res) => {
 				if (res.status === 200) {
-							
+						console.log("Success");	
 				} else {
 					throw Error;
 				}
@@ -83,7 +83,7 @@ async function sendOrder(order: CartItemType[]){
           }}>
           Complete Order</Button>}
       <Hidden>
-    <ReviewPage order={cartItems} addToCart={addToCart} removeFromCart={removeFromCart}></ReviewPage>   
+    <ReviewPage order={cartItems} addToCart={addToCart} removeFromCart={removeFromCart} orderId={""}></ReviewPage>   
     </Hidden>
       </Wrapper>
     );

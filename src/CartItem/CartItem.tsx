@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button';
 import {CartItemType} from '../Pages/MenuPage';
 import {Wrapper} from './CartItem.styles';
+import StarRating from '../Components/StarRating';
 
 type Props = {
     item: CartItemType;
@@ -10,10 +11,18 @@ type Props = {
   
   };
 
+
   const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart,show}) => (
     <Wrapper>
       <div>
+        
         <h3>{item.productName}</h3>
+        {show!=true?
+        <div className="information">
+        <StarRating productId={item._id} ></StarRating>
+        </div>
+        :null}
+    
         {show==true?
         <div className='information'>
           <p>Price: ${item.productPrice}</p>
