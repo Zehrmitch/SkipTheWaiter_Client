@@ -58,4 +58,3 @@ type Props = {
   
   export default CartItem;
  
-  

@@ -28,7 +28,7 @@ async function sendOrder(order: CartItemType[]){
   order.map(item=>{
     orderProducts.push(item.productName)
   });
-  //console.log(orderProducts);
+  
   
    await fetch("http://localhost:8080/api/order", {
 			
@@ -62,6 +62,7 @@ async function sendOrder(order: CartItemType[]){
     return (
       
       <Wrapper>
+     
         <h2>Your Order</h2>
         {cartItems.length === 0 ? <p>No items in your order...</p> : null}
         {cartItems.map(item => (

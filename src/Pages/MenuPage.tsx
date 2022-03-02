@@ -48,7 +48,7 @@ var productRatings: number[]=[];
 				if(isNaN(tempAvg)){
 					tempAvg=0;
 				}
-				//console.log(tempAvg);
+				
 				productRatings.push(tempAvg);
 			})
 		}
@@ -58,7 +58,7 @@ var productRatings: number[]=[];
 	
 		})
 	  })}
-  console.log(productRatings);
+  
 	const getTotalItems = (items: CartItemType[]) =>
 	  items.reduce((ack: number, item) => ack + item.amount, 0);
   
