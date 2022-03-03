@@ -22,7 +22,9 @@ export type CartItemType = {
 var productRatings: number[]=[];
   const getProducts = async (): Promise<CartItemType[]> =>
 	await (await fetch('http://localhost:8080/api/product/all')).json();
-  
+	
+var temp:string[]=[];
+
   const MenuPage = () => {
 	const [cartOpen, setCartOpen] = useState(false);
 	const [cartItems, setCartItems] = useState([] as CartItemType[]);
@@ -31,6 +33,7 @@ var productRatings: number[]=[];
 	  getProducts
 	);
 
+	
 
 		
 	{data?.map(async(item) => {
@@ -63,9 +66,12 @@ var productRatings: number[]=[];
 	  items.reduce((ack: number, item) => ack + item.amount, 0);
   
 	const handleAddToCart = (clickedItem: CartItemType) => {
+	   
 	  setCartItems(prev => {
 		const isItemInCart = prev.find(item => item._id === clickedItem._id);
-  
+		temp.push(clickedItem._id+"true");
+		console.log(temp)
+		console.log((temp.includes(clickedItem._id+"true")))
 		if (isItemInCart) {
 		  return prev.map(item =>
 			item._id === clickedItem._id
@@ -115,12 +121,14 @@ var productRatings: number[]=[];
 		  {data?.map((item,i) => (
 			<Grid item key={item._id} xs={12} sm={4}>
 			  <Item item={item} handleAddToCart={handleAddToCart} />
-			  <StarRating click={false} rv={productRatings[i]}></StarRating>
+			  {temp.includes(item._id+"true")?
+			  <StarRating click={false} rv={productRatings[i]}></StarRating>:null}
 			</Grid>
 		  ))}
 		</Grid>
 	  </Wrapper>
 	);
+
   };
 
 export default MenuPage;
