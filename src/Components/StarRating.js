@@ -4,6 +4,7 @@ import {FaStar} from 'react-icons/fa';
 import CartItem from '../CartItem/CartItem';
 import ReviewPage from '../Pages/ReviewPage';
 
+
 async function submitRating(rate,product){
     await fetch("http://localhost:8080/api/review", {
 			
