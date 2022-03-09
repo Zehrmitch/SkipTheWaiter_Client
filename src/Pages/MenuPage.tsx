@@ -26,10 +26,10 @@ export type ReviewType={
 	avgReview:number;
 }
 
-
+const tonyStoreId='61a79c8a77fabcc990bbbd60';
   
 const getProducts = async (): Promise<CartItemType[]> =>
-	await (await fetch('http://localhost:8080/api/product/all')).json();
+	await (await fetch('http://localhost:8080/api/product/'+tonyStoreId)).json();
 
 const getReviews=async():Promise<ReviewType[]>=>
   	await (await fetch('http://localhost:8080/api/review/productsavgreview')).json();
