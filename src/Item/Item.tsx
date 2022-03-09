@@ -2,12 +2,15 @@ import Button from '@material-ui/core/Button';
 import {CartItemType} from '../Pages/MenuPage';
 import {Wrapper} from './Item.styles';
 
+
 type Props = {
     item: CartItemType;
     handleAddToCart: (clickedItem: CartItemType) => void;
   };
-  
-  const Item: React.FC<Props> = ({ item, handleAddToCart }) => (
+
+
+const Item: React.FC<Props> = ({ item, handleAddToCart }) => (
+ 
     <Wrapper>
       <img src={item.productImageUrl} alt={item.productName} />
       <div>
@@ -17,6 +20,6 @@ type Props = {
       </div>
       <Button onClick={() => handleAddToCart(item)}>Add to Order</Button>
     </Wrapper>
-  );
+);
   
   export default Item;

@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {useQuery} from 'react-query';
 import Drawer from '@material-ui/core/Drawer';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import Badge from '@material-ui/core/Badge';
@@ -18,50 +17,45 @@ export type CartItemType = {
 	productPrice: number;
 	amount: number;
 	storeId: string;
-  };
-var productRatings: number[]=[];
-  const getProducts = async (): Promise<CartItemType[]> =>
-	await (await fetch('http://localhost:8080/api/product/all')).json();
+	review:number;
 	
-var temp:string[]=[];
+  };
+
+export type ReviewType={
+	_id:number;
+	avgReview:number;
+}
+
+
+  
+const getProducts = async (): Promise<CartItemType[]> =>
+	await (await fetch('http://localhost:8080/api/product/all')).json();
+
+const getReviews=async():Promise<ReviewType[]>=>
+  	await (await fetch('http://localhost:8080/api/review/productsavgreview')).json();
+
+	
 
   const MenuPage = () => {
 	const [cartOpen, setCartOpen] = useState(false);
 	const [cartItems, setCartItems] = useState([] as CartItemType[]);
-	const { data, isLoading, error } = useQuery<CartItemType[]>(
-	  'products',
-	  getProducts
-	);
-
+	const {data:data1}=useQuery<CartItemType[]>('products',getProducts);
+	const {data:data2}=useQuery<ReviewType[]>('reviews',getReviews);
 	
+	data2?.map((x)=>{
+		x.avgReview=Math.floor(x.avgReview);
+	})
 
-		
-	{data?.map(async(item) => {
-		
-		await fetch('http://localhost:8080/api/review/'+item._id).then((res)=>{
-			if(res.status==200){
-				
-			res.json().then((data)=>{
-				var tempSum:number=0;
-				var tempAvg:number=0;
-				for(var i:number=0;i<data.length;i++){
-					tempSum+=data[i].reviewStars;
-				}
-				tempAvg=Math.floor(tempSum/data.length);
-				if(isNaN(tempAvg)){
-					tempAvg=0;
-				}
-				
-				productRatings.push(tempAvg);
-			})
-		}
-		else{
-			return;
-		}
-	
+	data1?.map((x)=>{
+	var temp=0;
+		data2?.map((y)=>{
+			if(x._id==y._id){
+				temp=y.avgReview;
+			}
 		})
-	  })}
-  
+		x.review=temp;
+	})
+	
 	const getTotalItems = (items: CartItemType[]) =>
 	  items.reduce((ack: number, item) => ack + item.amount, 0);
   
@@ -69,9 +63,6 @@ var temp:string[]=[];
 	   
 	  setCartItems(prev => {
 		const isItemInCart = prev.find(item => item._id === clickedItem._id);
-		temp.push(clickedItem._id+"true");
-		console.log(temp)
-		console.log((temp.includes(clickedItem._id+"true")))
 		if (isItemInCart) {
 		  return prev.map(item =>
 			item._id === clickedItem._id
@@ -99,30 +90,27 @@ var temp:string[]=[];
 	};
 
   
-	if (isLoading) return <LinearProgress />;
-	if (error) return <div>Something went wrong ...</div>;
-  
 	return (
 	  <Wrapper>
+		 
 		<Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
 		  <Cart
 			cartItems={cartItems}
 			addToCart={handleAddToCart}
 			removeFromCart={handleRemoveFromCart}
 		  />
-		
 		</Drawer>
+		
 		<StyledButton onClick={() => setCartOpen(true)}>
 		  <Badge badgeContent={getTotalItems(cartItems)} color='error'>
 			<AddShoppingCartIcon />
 		  </Badge>
 		</StyledButton>
 		<Grid container spacing={3}>
-		  {data?.map((item,i) => (
+		  {data1?.map((item) => (
 			<Grid item key={item._id} xs={12} sm={4}>
-			  <Item item={item} handleAddToCart={handleAddToCart} />
-			  {temp.includes(item._id+"true")?
-			  <StarRating click={false} rv={productRatings[i]}></StarRating>:null}
+			  <Item item={item} handleAddToCart={handleAddToCart}/>	
+			  <StarRating click={false} rv={item.review}></StarRating> 
 			</Grid>
 		  ))}
 		</Grid>
