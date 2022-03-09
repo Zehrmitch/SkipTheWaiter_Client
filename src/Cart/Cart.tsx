@@ -1,8 +1,12 @@
 import CartItem from '../CartItem/CartItem';
 import {Wrapper} from './Cart.styles';
+import {Hidden} from './Cart.styles';
 import {CartItemType} from '../Pages/MenuPage';
 import Button from '@material-ui/core/Button';
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
+import ReviewPage from '../Pages/ReviewPage';
+
 
 type Props = {
     cartItems: CartItemType[];
@@ -11,13 +15,12 @@ type Props = {
     
   };
 
-var orderSent:boolean=false;
-var flag:boolean=false;
-var confirmationText:boolean=false;
+var orderProducts:string[]=[];
 
 
 async function sendOrder(order: CartItemType[]){
-  var orderProducts:string[]=[];
+
+
   var storeId:string;
   var tableId:string='61a79d4777fabcc990bbbd62';
   storeId=order[0].storeId;
@@ -25,7 +28,7 @@ async function sendOrder(order: CartItemType[]){
   order.map(item=>{
     orderProducts.push(item.productName)
   });
-  //console.log(orderProducts);
+  
   
    await fetch("http://localhost:8080/api/order", {
 			
@@ -37,10 +40,7 @@ async function sendOrder(order: CartItemType[]){
 		})
 			.then((res) => {
 				if (res.status === 200) {
-         
-					console.log("Success");
-          orderSent=true;
-							
+						console.log("Success");	
 				} else {
 					throw Error;
 				}
@@ -50,30 +50,19 @@ async function sendOrder(order: CartItemType[]){
 
 			});
       
-     if(orderSent===false){
-        return false;
-      }
-      else{
-        return true;
-      }
+    
 }
- 
+
   const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
     
-    if(orderSent){
-      flag=true;
-      }
-      if(!orderSent){
-       flag=false;
-      }
-
-    const [disable,setDisable]=React.useState(flag);
-
+    const navigate=useNavigate();
     const calculateTotal = (items: CartItemType[]) =>
       items.reduce((ack: number, item) => ack + item.amount * item.productPrice, 0);
   
     return (
+      
       <Wrapper>
+     
         <h2>Your Order</h2>
         {cartItems.length === 0 ? <p>No items in your order...</p> : null}
         {cartItems.map(item => (
@@ -82,19 +71,21 @@ async function sendOrder(order: CartItemType[]){
             item={item}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
+            show={true}
           />
         ))}
         <h2>Total: ${calculateTotal(cartItems).toFixed(2)}</h2>
-        {cartItems.length===0? <p>Select items from the menu to order</p>:<Button disabled={disable} 
+        {cartItems.length===0? <p>Select items from the menu to order</p>:<Button
+        
           onClick={async ()=>{
-          setDisable(true);
-          confirmationText=await sendOrder(cartItems);
-            console.log(confirmationText)
+          
+          await sendOrder(cartItems);
+          navigate('/reviews');
           }}>
           Complete Order</Button>}
-          {confirmationText===false? null:
-            cartItems.length===0? null :<p>Your order has been sent to the kitchen</p>}
-
+      <Hidden>
+    <ReviewPage order={cartItems} addToCart={addToCart} removeFromCart={removeFromCart} orderId={""}></ReviewPage>   
+    </Hidden>
       </Wrapper>
     );
   };

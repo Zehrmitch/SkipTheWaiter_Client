@@ -4,6 +4,7 @@ import React from 'react';
 import MenuPage from './Pages/MenuPage';
 import RestaurauntPage from './Pages/RestaurauntPage';
 import NavBar from './Components/NavBar';
+import ReviewPage from './Pages/ReviewPage';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<RestaurauntPage />}></Route>
 				<Route path="/menu" element={<MenuPage />}></Route>
+				<Route path="/reviews" element={<ReviewPage/>}></Route>
 			</Routes>
 		</NavBar>
 	);

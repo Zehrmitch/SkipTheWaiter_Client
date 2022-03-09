@@ -7,12 +7,7 @@ import {
 const tabs = [
 	{ name: 'Restauraunt', href: '/', icon: OfficeBuildingIcon, id: 0 },
 	{ name: 'Menu', href: '/menu', icon: TemplateIcon, id: 1 },
-	{
-		name: 'Call Waiter',
-		href: '/waiter',
-		icon: UserAddIcon,
-		id: 2,
-	},
+	
 ];
 
 function classNames(...classes) {
